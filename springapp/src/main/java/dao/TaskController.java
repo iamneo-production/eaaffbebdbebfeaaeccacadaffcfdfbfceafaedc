@@ -62,9 +62,10 @@ public class TaskController {
     public String deleteTask(@RequestParam String taskId) {
         Task deleteTask = taskRepository.findById(taskId).orElseThrow(
             ()-> new ResourceNotFoundException("Task not exist with id: "));
-        
+
 
         taskRepository.deleteById(deleteTask.getTaskID());
         return "Task deleted";
     }
+
 }
