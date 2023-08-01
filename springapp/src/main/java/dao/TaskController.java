@@ -24,27 +24,27 @@ public class TaskController {
     @Autowired
     private TaskRepository taskRepository;
 
-    
+    //Get All Tasks
     @GetMapping("/alltasks")
     public List<Task> getAllTasks() {
         return taskRepository.findAll();
     }
 
-    
+    //Get Task by ID
     @GetMapping("/getTask")
     public Task getTaskByHolderName(@RequestParam String taskId) {
         Optional<Task> taskOptional = taskRepository.findById(taskId);
         return taskOptional.get();
     }
 
-    
+    //Save a Task
     @PostMapping("/saveTask")
     public @ResponseBody String saveTask(@RequestBody Task task) {
         taskRepository.save(task);
         return "New task saved";
     }
 
-   
+    //Change task status
     @PutMapping("/changeStatus")
     public ResponseEntity<Task> changeStatus(@RequestParam String taskId) {
         Task updateTask = taskRepository.findById(taskId).orElseThrow(
@@ -57,15 +57,15 @@ public class TaskController {
         return ResponseEntity.ok(updateTask);
     }
 
-    
+    //Delete a task
     @DeleteMapping("/deleteTask")
     public String deleteTask(@RequestParam String taskId) {
         Task deleteTask = taskRepository.findById(taskId).orElseThrow(
             ()-> new ResourceNotFoundException("Task not exist with id: "));
-
+        
 
         taskRepository.deleteById(deleteTask.getTaskID());
         return "Task deleted";
-    }
+    }
 
 }
